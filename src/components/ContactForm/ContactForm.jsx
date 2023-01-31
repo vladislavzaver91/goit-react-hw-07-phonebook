@@ -1,8 +1,8 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector  } from 'react-redux';
 import { addContact } from 'redux/contactsOperations';
+import { onExistContact, onSuccesAddContact } from 'utils/notify';
 import { FormBox, FormContacts, FormTitle, SearchInput, BtnSubmit } from './ContactForm.styled';
 
 const initialValues = {
@@ -13,7 +13,7 @@ const initialValues = {
 
 export const ContactForm = () => {
     const dispatch = useDispatch();
-    const contactList = useSelector(state => state.contacts.item);
+    const contactList = useSelector(state => state.contacts.items);
 
     return (
         <FormBox>
@@ -23,29 +23,11 @@ export const ContactForm = () => {
                     contact.name.toLowerCase().includes(values.name.toLowerCase()));
 
                     if (findedContact) {
-                        toast(`${findedContact.name} is already in contacts!`, {
-                            position: 'top-right',
-                            autoClose: 2000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: 'dark',
-                        });;
+                        onExistContact(findedContact);
                         actions.resetForm();
                         return;
                     } else {
-                        toast(`${findedContact.name} was successfully added!`, {
-                            position: 'top-right',
-                            autoClose: 2000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: 'dark',
-                        });;
+                        onSuccesAddContact(values);
                         dispatch(addContact(values, actions));
                         actions.resetForm();
                     };

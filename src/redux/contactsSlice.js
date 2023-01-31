@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchContacts, addContact, delContact } from "./contactsOperations";
-// import users from 'data/users.json';
 
 export const contactsSlice = createSlice({
     name: 'contacts',
